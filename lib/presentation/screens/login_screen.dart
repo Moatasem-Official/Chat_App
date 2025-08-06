@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen>
           child: Container(
             alignment: Alignment.center,
             child: SvgPicture.asset(
-              'assets/images/messaging_app.svg',
+              'assets/images/Messaging-amico.svg',
               height: size.height * 0.3,
             ),
           ),
@@ -200,11 +200,11 @@ class _LoginScreenState extends State<LoginScreen>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildSocialButton(
-          asset: 'assets/images/google_icon.svg',
+          asset: 'assets/images/google-color-svgrepo-com.svg',
         ), // تأكد من إضافة أيقونة جوجل
         const SizedBox(width: 20),
         _buildSocialButton(
-          asset: 'assets/images/apple_icon.svg',
+          asset: 'assets/images/apple-svgrepo-com.svg',
         ), // تأكد من إضافة أيقونة أبل
       ],
     );
