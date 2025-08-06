@@ -1,5 +1,6 @@
+import 'package:chat_app/presentation/widgets/Login_Screen/custom_form.dart';
+import 'package:chat_app/presentation/widgets/Login_Screen/custom_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -50,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen>
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        // الخلفية ذات التدرج اللوني الجذاب
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF8E9EFE), Color(0xFFAB87FF)],
@@ -63,187 +63,25 @@ class _LoginScreenState extends State<LoginScreen>
             height: size.height,
             child: Column(
               children: [
-                // الجزء العلوي الذي يحتوي على الصورة
-                _buildHeader(size),
-                // الجزء السفلي الذي يحتوي على فورم التسجيل
-                _buildForm(),
+                CustomHeader(
+                  fadeAnimation: _fadeAnimation,
+                  slideAnimation: _slideAnimation,
+                  size: size,
+                ),
+                CustomForm(
+                  formKey: _formKey,
+                  emailController: _emailController,
+                  passwordController: _passwordController,
+                  isVisible: isVisible,
+                  onEyePressed: () => setState(() => isVisible = !isVisible),
+                  fadeAnimation: _fadeAnimation,
+                  slideAnimation: _slideAnimation,
+                ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  // ودجت الجزء العلوي (الصورة)
-  Widget _buildHeader(Size size) {
-    return Expanded(
-      flex: 2,
-      child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: Container(
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              'assets/images/Messaging-amico.svg',
-              height: size.height * 0.3,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // ودجت الجزء السفلي (فورم التسجيل)
-  Widget _buildForm() {
-    return Expanded(
-      flex: 3,
-      child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "أهلاً بعودتك!",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "سجل الدخول للمتابعة",
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                ),
-                const SizedBox(height: 24),
-                // حقول الإدخال
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      _buildTextFormField(
-                        icon: Icons.email_outlined,
-                        hint: "البريد الإلكتروني",
-                        controller: _emailController,
-                      ),
-                      const SizedBox(height: 16),
-                      _buildTextFormField(
-                        icon: Icons.lock_outline,
-                        hint: "كلمة المرور",
-                        isPassword: true,
-                        isVisible: isVisible,
-                        controller: _passwordController,
-                        onPressed: () {
-                          setState(() {
-                            isVisible = !isVisible;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      // زر تسجيل الدخول
-                      _buildLoginButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {}
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // رابط إنشاء حساب جديد
-                _buildSignupLink(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextFormField({
-    required IconData icon,
-    required String hint,
-    bool isPassword = false,
-    bool? isVisible,
-    VoidCallback? onPressed,
-    required TextEditingController? controller,
-  }) {
-    return TextFormField(
-      controller: controller,
-      obscureText: isPassword ? isVisible! : false,
-      decoration: InputDecoration(
-        hintText: hint,
-        prefixIcon: Icon(icon, color: Colors.grey.shade500),
-        suffixIcon: isPassword
-            ? IconButton(
-                icon: Icon(
-                  isVisible! ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey.shade500,
-                ),
-                onPressed: onPressed,
-              )
-            : null,
-        filled: true,
-        fillColor: Colors.grey.shade100,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
-        ),
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return isPassword ? "ادخل كلمة المرور" : "ادخل البريد الالكتروني";
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildLoginButton({required VoidCallback? onPressed}) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF8E9EFE),
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: const Text(
-          "تسجيل الدخول",
-          style: TextStyle(fontSize: 18, color: Colors.white),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSignupLink() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("ليس لديك حساب ؟", style: TextStyle(color: Colors.grey)),
-        TextButton(
-          onPressed: () {},
-          child: const Text(
-            "أنشئ حسابًا",
-            style: TextStyle(
-              color: Color(0xFF8E9EFE),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
