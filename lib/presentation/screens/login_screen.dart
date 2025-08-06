@@ -40,6 +40,8 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
   }
 
+  bool isVisible = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -130,21 +132,17 @@ class _LoginScreenState extends State<LoginScreen>
                   icon: Icons.lock_outline,
                   hint: "كلمة المرور",
                   isPassword: true,
+                  isVisible: isVisible,
+                  onPressed: () {
+                    setState(() {
+                      isVisible = !isVisible;
+                    });
+                  },
                 ),
                 const SizedBox(height: 24),
                 // زر تسجيل الدخول
                 _buildLoginButton(),
                 const SizedBox(height: 16),
-                const Center(
-                  child: Text(
-                    "أو سجل الدخول باستخدام",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // أزرار الدخول الاجتماعي
-                _buildSocialLogins(),
-                const Spacer(),
                 // رابط إنشاء حساب جديد
                 _buildSignupLink(),
               ],
@@ -159,12 +157,23 @@ class _LoginScreenState extends State<LoginScreen>
     required IconData icon,
     required String hint,
     bool isPassword = false,
+    bool? isVisible,
+    VoidCallback? onPressed,
   }) {
     return TextField(
-      obscureText: isPassword,
+      obscureText: isPassword ? isVisible! : false,
       decoration: InputDecoration(
         hintText: hint,
         prefixIcon: Icon(icon, color: Colors.grey.shade500),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  isVisible! ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.grey.shade500,
+                ),
+                onPressed: onPressed,
+              )
+            : null,
         filled: true,
         fillColor: Colors.grey.shade100,
         border: OutlineInputBorder(
@@ -191,39 +200,6 @@ class _LoginScreenState extends State<LoginScreen>
           "تسجيل الدخول",
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSocialLogins() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildSocialButton(
-          asset: 'assets/images/google-color-svgrepo-com.svg',
-        ), // تأكد من إضافة أيقونة جوجل
-        const SizedBox(width: 20),
-        _buildSocialButton(
-          asset: 'assets/images/apple-svgrepo-com.svg',
-        ), // تأكد من إضافة أيقونة أبل
-      ],
-    );
-  }
-
-  Widget _buildSocialButton({required String asset}) {
-    // ملاحظة: يجب عليك توفير هذه الصور بنفسك
-    // سأضع هنا حاوية مؤقتة
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey.shade300, width: 1),
-      ),
-      child: SvgPicture.asset(
-        asset,
-        height: 24,
-        // في حال عدم توفر الصور، يمكنك استخدام أيقونات Flutter
-        // child: Icon(Icons.ac_unit, size: 24),
       ),
     );
   }
