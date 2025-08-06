@@ -40,6 +40,9 @@ class _LoginScreenState extends State<LoginScreen>
     super.dispose();
   }
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool isVisible = false;
 
   @override
@@ -123,25 +126,38 @@ class _LoginScreenState extends State<LoginScreen>
                 ),
                 const SizedBox(height: 24),
                 // حقول الإدخال
-                _buildTextField(
-                  icon: Icons.email_outlined,
-                  hint: "البريد الإلكتروني",
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      _buildTextFormField(
+                        icon: Icons.email_outlined,
+                        hint: "البريد الإلكتروني",
+                        controller: _emailController,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTextFormField(
+                        icon: Icons.lock_outline,
+                        hint: "كلمة المرور",
+                        isPassword: true,
+                        isVisible: isVisible,
+                        controller: _passwordController,
+                        onPressed: () {
+                          setState(() {
+                            isVisible = !isVisible;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      // زر تسجيل الدخول
+                      _buildLoginButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  icon: Icons.lock_outline,
-                  hint: "كلمة المرور",
-                  isPassword: true,
-                  isVisible: isVisible,
-                  onPressed: () {
-                    setState(() {
-                      isVisible = !isVisible;
-                    });
-                  },
-                ),
-                const SizedBox(height: 24),
-                // زر تسجيل الدخول
-                _buildLoginButton(),
                 const SizedBox(height: 16),
                 // رابط إنشاء حساب جديد
                 _buildSignupLink(),
@@ -153,14 +169,16 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _buildTextField({
+  Widget _buildTextFormField({
     required IconData icon,
     required String hint,
     bool isPassword = false,
     bool? isVisible,
     VoidCallback? onPressed,
+    required TextEditingController? controller,
   }) {
-    return TextField(
+    return TextFormField(
+      controller: controller,
       obscureText: isPassword ? isVisible! : false,
       decoration: InputDecoration(
         hintText: hint,
@@ -181,14 +199,20 @@ class _LoginScreenState extends State<LoginScreen>
           borderSide: BorderSide.none,
         ),
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return isPassword ? "ادخل كلمة المرور" : "ادخل البريد الالكتروني";
+        }
+        return null;
+      },
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildLoginButton({required VoidCallback? onPressed}) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF8E9EFE),
           padding: const EdgeInsets.symmetric(vertical: 16),
