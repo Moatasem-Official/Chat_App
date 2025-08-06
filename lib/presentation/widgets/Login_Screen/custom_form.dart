@@ -1,3 +1,4 @@
+import 'package:chat_app/presentation/screens/sign_up_screen.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_login_button.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_sign_up_link.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_text_form_field.dart';
@@ -85,7 +86,14 @@ class CustomForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 // رابط إنشاء حساب جديد
-                const CustomSignUpLink(onPressed: null),
+                CustomSignUpLink(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpScreen(),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
