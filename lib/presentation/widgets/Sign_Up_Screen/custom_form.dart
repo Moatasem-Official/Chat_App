@@ -1,4 +1,3 @@
-import 'package:chat_app/presentation/screens/sign_up_screen.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_login_button.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_sign_up_link.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_text_form_field.dart';
@@ -7,20 +6,22 @@ import 'package:flutter/material.dart';
 class CustomForm extends StatelessWidget {
   const CustomForm({
     super.key,
-    required this.formKey,
-    required this.emailController,
-    required this.passwordController,
-    this.isVisible,
-    this.onEyePressed,
+    required this.isVisible,
+    required this.onEyePressed,
     required this.fadeAnimation,
     required this.slideAnimation,
+    required this.formKey,
+    required this.nameController,
+    required this.emailController,
+    required this.passwordController,
   });
 
   final GlobalKey<FormState> formKey;
+  final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  final bool? isVisible;
-  final VoidCallback? onEyePressed;
+  final bool isVisible;
+  final VoidCallback onEyePressed;
   final Animation<double> fadeAnimation;
   final Animation<Offset> slideAnimation;
 
@@ -45,12 +46,12 @@ class CustomForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "أهلاً بعودتك!",
+                  "أنشئ حسابك",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "سجل الدخول للمتابعة",
+                  "انضم إلينا وابدأ المحادثة",
                   style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
                 ),
                 const SizedBox(height: 24),
@@ -60,24 +61,31 @@ class CustomForm extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomTextFormField(
+                        icon: Icons.person_outline,
+                        hint: "الاسم الكامل",
+                        isPassword: false,
+                        controller: nameController,
+                      ),
+                      const SizedBox(height: 16),
+                      CustomTextFormField(
                         icon: Icons.email_outlined,
                         hint: "البريد الإلكتروني",
-                        controller: emailController,
                         isPassword: false,
+                        controller: emailController,
                       ),
                       const SizedBox(height: 16),
                       CustomTextFormField(
                         icon: Icons.lock_outline,
                         hint: "كلمة المرور",
                         isPassword: true,
-                        isVisible: isVisible,
                         controller: passwordController,
+                        isVisible: isVisible,
                         onPressed: onEyePressed,
                       ),
                       const SizedBox(height: 24),
-                      // زر تسجيل الدخول
+                      // زر إنشاء الحساب
                       CustomLoginButton(
-                        title: "تسجيل الدخول",
+                        title: "انشاء حساب",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {}
                         },
@@ -85,17 +93,12 @@ class CustomForm extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-                // رابط إنشاء حساب جديد
+                const Spacer(),
+                // رابط الانتقال لصفحة تسجيل الدخول
                 CustomSignUpLink(
-                  title: "ليس لديك حساب ؟ ",
-                  buttonTitle: "انشاء حساب",
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
-                    ),
-                  ),
+                  title: "لديك حساب بالفعل ؟ ",
+                  buttonTitle: "تسجيل الدخول",
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),

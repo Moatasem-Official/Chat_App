@@ -44,7 +44,7 @@ class CustomTextFormField extends StatelessWidget {
       ),
       validator: (value) {
         if (value!.isEmpty) {
-          return isPassword ? "ادخل كلمة المرور" : "ادخل البريد الالكتروني";
+          return isPassword ? "ادخل كلمة المرور" : "ادخل $hint";
         }
         return null;
       },
