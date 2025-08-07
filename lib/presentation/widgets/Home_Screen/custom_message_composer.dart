@@ -30,20 +30,20 @@ class CustomMessageComposer extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              icon: Icon(Icons.attach_file, color: Colors.grey.shade600),
+              icon: Icon(Icons.attach_file, color: Colors.teal.shade600),
               onPressed: onAttachmentPressed,
             ),
             Expanded(
               child: TextField(
                 controller: textController,
                 decoration: const InputDecoration.collapsed(
-                  hintText: "اكتب رسالتك...",
+                  hintText: 'Type a message...',
                 ),
                 textCapitalization: TextCapitalization.sentences,
               ),
             ),
             IconButton(
-              icon: Icon(Icons.send, color: Theme.of(context).primaryColor),
+              icon: Icon(Icons.send_rounded, color: Colors.teal.shade600),
               onPressed: onSendPressed,
             ),
           ],

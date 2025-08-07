@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Moatasem Nagy", // اسم الشخص الآخر
+                "Moatasem Nagy",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -36,17 +36,17 @@ class CustomAppBar extends StatelessWidget {
       ),
       actions: [
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.videocam_outlined,
-            color: Colors.black54,
+            color: Colors.teal.shade600,
             size: 28,
           ),
           onPressed: () {},
         ),
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.call_outlined,
-            color: Colors.black54,
+            color: Colors.teal.shade600,
             size: 26,
           ),
           onPressed: () {},

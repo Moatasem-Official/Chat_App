@@ -46,7 +46,7 @@ class AuthService {
         case 'wrong-password':
           throw 'wrong-password';
         case 'invalid-credential':
-          throw 'invalid-credentials'; // 👈 بيانات غير صحيحة بشكل عام
+          throw 'invalid-credentials';
         case 'too-many-requests':
           throw 'too-many-requests';
         default:

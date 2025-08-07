@@ -11,7 +11,6 @@ class CustomMessageTemplete extends StatelessWidget {
     final alignment = message.isSentByMe
         ? CrossAxisAlignment.end
         : CrossAxisAlignment.start;
-    // تحديد لون خلفية الرسالة
     final bubbleColor = message.isSentByMe
         ? const BoxDecoration(
             gradient: LinearGradient(
@@ -25,7 +24,6 @@ class CustomMessageTemplete extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
           );
-    // تحديد لون النص
     final textColor = message.isSentByMe ? Colors.white : Colors.black87;
 
     return Container(
