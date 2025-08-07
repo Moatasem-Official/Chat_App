@@ -39,9 +39,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: FirebaseAuth.instance.currentUser == null
-          ? const LoginScreen()
-          : const ChatHomeScreen(),
+      home:
+          FirebaseAuth.instance.currentUser != null &&
+              FirebaseAuth.instance.currentUser!.emailVerified
+          ? const ChatHomeScreen()
+          : const LoginScreen(),
     );
   }
 }

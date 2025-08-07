@@ -66,6 +66,9 @@ class _CustomFormState extends State<CustomForm> {
                   case 'user-not-found':
                     errorMessage = "البريد الإلكتروني غير مسجل";
                     break;
+                  case 'email-not-verified':
+                    errorMessage = "البريد الإلكتروني لم يتم التحقق منه";
+                    break;
                   case 'wrong-password':
                     errorMessage = "كلمة المرور غير صحيحة";
                     break;

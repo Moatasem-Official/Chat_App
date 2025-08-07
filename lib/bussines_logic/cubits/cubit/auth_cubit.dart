@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/data/services/firebase/auth/auth_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'auth_state.dart';
 
@@ -22,7 +23,12 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       await AuthService.signIn(email, password);
-      emit(AuthSuccess());
+      if (FirebaseAuth.instance.currentUser!.emailVerified) {
+        emit(AuthSuccess());
+      } else {
+        await AuthService.sendEmailVerification();
+        emit(const AuthError(message: 'email-not-verified'));
+      }
     } catch (e) {
       if (e is String) {
         emit(AuthError(message: e));
