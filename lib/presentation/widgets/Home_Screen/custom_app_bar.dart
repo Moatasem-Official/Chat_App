@@ -1,3 +1,5 @@
+import 'package:chat_app/data/services/firebase/auth/auth_service.dart';
+import 'package:chat_app/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -50,6 +52,43 @@ class CustomAppBar extends StatelessWidget {
             size: 26,
           ),
           onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.logout_rounded,
+            color: Colors.teal.shade600,
+            size: 26,
+          ),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text("تسجيل الخروج"),
+                content: const Text("هل انت متاكد من تسجيل الخروج ؟"),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("لا"),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      await AuthService.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("تم تسجيل الخروج بنجاح")),
+                      );
+                    },
+                    child: const Text("نعم"),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
         const SizedBox(width: 8),
       ],
