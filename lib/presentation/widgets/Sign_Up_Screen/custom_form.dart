@@ -1,4 +1,5 @@
 import 'package:chat_app/bussines_logic/cubits/cubit/auth_cubit.dart';
+import 'package:chat_app/helpers/error_handler.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_login_button.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_sign_up_link.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_text_form_field.dart';
@@ -57,25 +58,12 @@ class _CustomFormState extends State<CustomForm> {
                 );
               } else if (state is AuthError) {
                 setState(() => isLoading = false);
-                if (state.message == 'weak-password') {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("كلمة المرور يجب ان تكون على الاقل 6 حروف"),
-                    ),
-                  );
-                } else if (state.message == 'email-already-in-use') {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("هذا البريد الالكتروني مستخدم بالفعل"),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("حدث خطأ غير متوقع، حاول مرة أخرى"),
-                    ),
-                  );
-                }
+                String errorMessage = ErrorHandler.firebaseHandler(
+                  state.message,
+                )!;
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(errorMessage)));
               }
             },
             builder: (context, state) {
