@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
+  static final _auth = FirebaseAuth.instance;
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
   static Future<void> sendEmailVerification() async {
-    final user = FirebaseAuth.instance.currentUser;
-    await user!.sendEmailVerification();
+    await _auth.currentUser?.sendEmailVerification();
   }
 
   static Future<void> sendPasswordResetEmail(String email) async {
@@ -16,18 +16,18 @@ class AuthService {
 
   static Future<void> signUp(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        throw 'weak-password';
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        throw 'email-already-in-use';
+      } else {
+        throw 'unknown-error';
       }
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -38,10 +38,19 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+      print('FirebaseAuthException code: ${e.code}');
+
+      switch (e.code) {
+        case 'user-not-found':
+          throw 'user-not-found';
+        case 'wrong-password':
+          throw 'wrong-password';
+        case 'invalid-credential':
+          throw 'invalid-credentials'; // 👈 بيانات غير صحيحة بشكل عام
+        case 'too-many-requests':
+          throw 'too-many-requests';
+        default:
+          throw 'unknown-error';
       }
     }
   }

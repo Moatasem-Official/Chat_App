@@ -5,10 +5,12 @@ class CustomLoginButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.title,
+    required this.isLoading,
   });
 
   final VoidCallback? onPressed;
   final String title;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,9 @@ class CustomLoginButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: Text(title, style: TextStyle(fontSize: 18, color: Colors.white)),
+        child: isLoading
+            ? const CircularProgressIndicator()
+            : Text(title, style: TextStyle(fontSize: 18, color: Colors.white)),
       ),
     );
   }

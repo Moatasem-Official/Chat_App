@@ -1,6 +1,8 @@
+import 'package:chat_app/bussines_logic/cubits/cubit/auth_cubit.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_form.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -49,35 +51,38 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF8E9EFE), Color(0xFFAB87FF)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return BlocProvider<AuthCubit>(
+      create: (context) => AuthCubit(),
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF8E9EFE), Color(0xFFAB87FF)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: size.height,
-            child: Column(
-              children: [
-                CustomHeader(
-                  fadeAnimation: _fadeAnimation,
-                  slideAnimation: _slideAnimation,
-                  size: size,
-                ),
-                CustomForm(
-                  formKey: _formKey,
-                  emailController: _emailController,
-                  passwordController: _passwordController,
-                  isVisible: isVisible,
-                  onEyePressed: () => setState(() => isVisible = !isVisible),
-                  fadeAnimation: _fadeAnimation,
-                  slideAnimation: _slideAnimation,
-                ),
-              ],
+          child: SingleChildScrollView(
+            child: SizedBox(
+              height: size.height,
+              child: Column(
+                children: [
+                  CustomHeader(
+                    fadeAnimation: _fadeAnimation,
+                    slideAnimation: _slideAnimation,
+                    size: size,
+                  ),
+                  CustomForm(
+                    formKey: _formKey,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    isVisible: isVisible,
+                    onEyePressed: () => setState(() => isVisible = !isVisible),
+                    fadeAnimation: _fadeAnimation,
+                    slideAnimation: _slideAnimation,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
