@@ -36,135 +36,140 @@ class _CustomFormState extends State<CustomForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: FadeTransition(
-        opacity: widget.fadeAnimation,
-        child: SlideTransition(
-          position: widget.slideAnimation,
-          child: BlocConsumer<AuthCubit, AuthState>(
-            listener: (context, state) {
-              if (state is AuthLoading) {
-                setState(() => isLoading = true);
-              } else if (state is AuthSuccess) {
-                setState(() => isLoading = false);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      "تم التسجيل بنجاح , من فضلك افحص بريدك الالكتروني",
+    return AbsorbPointer(
+      absorbing: isLoading,
+      child: Expanded(
+        flex: 3,
+        child: FadeTransition(
+          opacity: widget.fadeAnimation,
+          child: SlideTransition(
+            position: widget.slideAnimation,
+            child: BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthLoading) {
+                  setState(() => isLoading = true);
+                } else if (state is AuthSuccess) {
+                  setState(() => isLoading = false);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        "تم التسجيل بنجاح , من فضلك افحص بريدك الالكتروني",
+                      ),
                     ),
+                  );
+                } else if (state is AuthError) {
+                  setState(() => isLoading = false);
+                  if (state.message == 'weak-password') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "كلمة المرور يجب ان تكون على الاقل 6 حروف",
+                        ),
+                      ),
+                    );
+                  } else if (state.message == 'email-already-in-use') {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("هذا البريد الالكتروني مستخدم بالفعل"),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("حدث خطأ غير متوقع، حاول مرة أخرى"),
+                      ),
+                    );
+                  }
+                }
+              },
+              builder: (context, state) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 24,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "أنشئ حسابك",
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "انضم إلينا وابدأ المحادثة",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      // حقول الإدخال
+                      Form(
+                        key: widget.formKey,
+                        child: Column(
+                          children: [
+                            CustomTextFormField(
+                              icon: Icons.person_outline,
+                              hint: "الاسم الكامل",
+                              isPassword: false,
+                              controller: widget.nameController,
+                            ),
+                            const SizedBox(height: 16),
+                            CustomTextFormField(
+                              icon: Icons.email_outlined,
+                              hint: "البريد الإلكتروني",
+                              isPassword: false,
+                              controller: widget.emailController,
+                            ),
+                            const SizedBox(height: 16),
+                            CustomTextFormField(
+                              icon: Icons.lock_outline,
+                              hint: "كلمة المرور",
+                              isPassword: true,
+                              controller: widget.passwordController,
+                              isVisible: widget.isVisible,
+                              onPressed: widget.onEyePressed,
+                            ),
+                            const SizedBox(height: 24),
+                            // زر إنشاء الحساب
+                            CustomLoginButton(
+                              isLoading: isLoading,
+                              title: "انشاء حساب",
+                              onPressed: () {
+                                if (widget.formKey.currentState!.validate()) {
+                                  BlocProvider.of<AuthCubit>(context).signUp(
+                                    email: widget.emailController.text,
+                                    password: widget.passwordController.text,
+                                  );
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Spacer(),
+                      // رابط الانتقال لصفحة تسجيل الدخول
+                      CustomSignUpLink(
+                        title: "لديك حساب بالفعل ؟ ",
+                        buttonTitle: "تسجيل الدخول",
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ],
                   ),
                 );
-              } else if (state is AuthError) {
-                setState(() => isLoading = false);
-                if (state.message == 'weak-password') {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("كلمة المرور يجب ان تكون على الاقل 6 حروف"),
-                    ),
-                  );
-                } else if (state.message == 'email-already-in-use') {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("هذا البريد الالكتروني مستخدم بالفعل"),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("حدث خطأ غير متوقع، حاول مرة أخرى"),
-                    ),
-                  );
-                }
-              }
-            },
-            builder: (context, state) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32,
-                  vertical: 24,
-                ),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "أنشئ حسابك",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "انضم إلينا وابدأ المحادثة",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    // حقول الإدخال
-                    Form(
-                      key: widget.formKey,
-                      child: Column(
-                        children: [
-                          CustomTextFormField(
-                            icon: Icons.person_outline,
-                            hint: "الاسم الكامل",
-                            isPassword: false,
-                            controller: widget.nameController,
-                          ),
-                          const SizedBox(height: 16),
-                          CustomTextFormField(
-                            icon: Icons.email_outlined,
-                            hint: "البريد الإلكتروني",
-                            isPassword: false,
-                            controller: widget.emailController,
-                          ),
-                          const SizedBox(height: 16),
-                          CustomTextFormField(
-                            icon: Icons.lock_outline,
-                            hint: "كلمة المرور",
-                            isPassword: true,
-                            controller: widget.passwordController,
-                            isVisible: widget.isVisible,
-                            onPressed: widget.onEyePressed,
-                          ),
-                          const SizedBox(height: 24),
-                          // زر إنشاء الحساب
-                          CustomLoginButton(
-                            isLoading: isLoading,
-                            title: "انشاء حساب",
-                            onPressed: () {
-                              if (widget.formKey.currentState!.validate()) {
-                                BlocProvider.of<AuthCubit>(context).signUp(
-                                  email: widget.emailController.text,
-                                  password: widget.passwordController.text,
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    // رابط الانتقال لصفحة تسجيل الدخول
-                    CustomSignUpLink(
-                      title: "لديك حساب بالفعل ؟ ",
-                      buttonTitle: "تسجيل الدخول",
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                  ],
-                ),
-              );
-            },
+              },
+            ),
           ),
         ),
       ),

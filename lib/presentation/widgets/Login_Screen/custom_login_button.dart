@@ -16,6 +16,7 @@ class CustomLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: 50,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -26,7 +27,11 @@ class CustomLoginButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? const CircularProgressIndicator()
+            ? SizedBox(
+                height: 20,
+                width: 20,
+                child: const CircularProgressIndicator(color: Colors.white),
+              )
             : Text(title, style: TextStyle(fontSize: 18, color: Colors.white)),
       ),
     );
