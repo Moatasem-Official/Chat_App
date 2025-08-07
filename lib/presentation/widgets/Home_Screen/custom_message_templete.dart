@@ -1,0 +1,56 @@
+import 'package:chat_app/data/models/message_model.dart';
+import 'package:flutter/material.dart';
+
+class CustomMessageTemplete extends StatelessWidget {
+  const CustomMessageTemplete({super.key, required this.message});
+
+  final ChatMessage message;
+
+  @override
+  Widget build(BuildContext context) {
+    final alignment = message.isSentByMe
+        ? CrossAxisAlignment.end
+        : CrossAxisAlignment.start;
+    // تحديد لون خلفية الرسالة
+    final bubbleColor = message.isSentByMe
+        ? const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF8E9EFE), Color(0xFFAB87FF)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          )
+        : const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          );
+    // تحديد لون النص
+    final textColor = message.isSentByMe ? Colors.white : Colors.black87;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: alignment,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
+            ),
+            decoration: bubbleColor,
+            child: Text(
+              message.text,
+              style: TextStyle(color: textColor, fontSize: 16),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            message.time,
+            style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+          ),
+        ],
+      ),
+    );
+  }
+}
