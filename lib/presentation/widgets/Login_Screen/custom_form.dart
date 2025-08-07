@@ -1,4 +1,5 @@
 import 'package:chat_app/bussines_logic/cubits/cubit/auth_cubit.dart';
+import 'package:chat_app/presentation/screens/home_screen.dart';
 import 'package:chat_app/presentation/screens/sign_up_screen.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_login_button.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_sign_up_link.dart';
@@ -49,6 +50,12 @@ class _CustomFormState extends State<CustomForm> {
                 setState(() => isLoading = false);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("تم تسجيل الدخول بنجاح")),
+                );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChatHomeScreen(),
+                  ),
                 );
               }
               if (state is AuthError) {

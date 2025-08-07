@@ -1,3 +1,4 @@
+import 'package:chat_app/presentation/screens/home_screen.dart';
 import 'package:chat_app/presentation/screens/login_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,7 +39,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LoginScreen(),
+      home: FirebaseAuth.instance.currentUser == null
+          ? const LoginScreen()
+          : const ChatHomeScreen(),
     );
   }
 }
