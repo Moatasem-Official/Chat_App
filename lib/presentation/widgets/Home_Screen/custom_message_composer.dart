@@ -7,10 +7,12 @@ class CustomMessageComposer extends StatelessWidget {
     super.key,
     required this.textController,
     required this.onAttachmentPressed,
+    required this.scrollController,
   });
 
   final TextEditingController textController;
   final Function() onAttachmentPressed;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,11 @@ class CustomMessageComposer extends StatelessWidget {
                 if (textController.text.isNotEmpty) {
                   context.read<MessagesCubit>().addMessage(textController.text);
                   textController.clear();
+                  scrollController.animateTo(
+                    scrollController.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  );
                 }
               },
             ),

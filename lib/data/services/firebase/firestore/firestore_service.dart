@@ -17,7 +17,7 @@ class FirestoreService {
       'id': docRef.id, // نخزن الـ id هنا
       'message': message,
       'sendedAt': DateTime.now(),
-      'isSentByMe': true,
+      'messageId': FirebaseAuth.instance.currentUser!.email, // نخزن الـ id هنا
     });
   }
 
@@ -46,8 +46,12 @@ class FirestoreService {
                   doc['id'] ??
                   doc.id, // استخدام id من الـ document أو id من الـ doc
               text: doc['message'] ?? '',
-              isSentByMe: doc['isSentByMe'] ?? false,
+              isSentByMe:
+                  FirebaseAuth.instance.currentUser!.email == doc['messageId']
+                  ? true
+                  : false,
               time: time,
+              messageId: doc['messageId'] ?? '', // إضافة messageId
             );
           }).toList();
         });

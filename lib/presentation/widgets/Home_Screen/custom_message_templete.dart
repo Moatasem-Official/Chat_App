@@ -21,11 +21,21 @@ class CustomMessageTemplete extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomRight: Radius.circular(0),
+            ),
           )
         : const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(0),
+              topRight: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
           );
     final textColor = message.isSentByMe ? Colors.white : Colors.black87;
 

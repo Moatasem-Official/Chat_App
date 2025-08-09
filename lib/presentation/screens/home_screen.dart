@@ -78,6 +78,7 @@ class _ConversationScreenState extends State<ChatHomeScreen> {
             ),
           ),
           CustomMessageComposer(
+            scrollController: _scrollController,
             textController: _textController,
             onAttachmentPressed: () {},
           ),
