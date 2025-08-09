@@ -4,17 +4,24 @@ import 'package:chat_app/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomMessageTemplete extends StatelessWidget {
+class CustomMessageTemplete extends StatefulWidget {
   const CustomMessageTemplete({super.key, required this.message});
 
   final MessageModel message;
 
   @override
+  State<CustomMessageTemplete> createState() => _CustomMessageTempleteState();
+}
+
+class _CustomMessageTempleteState extends State<CustomMessageTemplete> {
+  bool wasEdited = true;
+
+  @override
   Widget build(BuildContext context) {
-    final alignment = message.isSentByMe
+    final alignment = widget.message.isSentByMe
         ? CrossAxisAlignment.end
         : CrossAxisAlignment.start;
-    final bubbleColor = message.isSentByMe
+    final bubbleColor = widget.message.isSentByMe
         ? const BoxDecoration(
             gradient: LinearGradient(
               colors: [Color(0xFF8E9EFE), Color(0xFFAB87FF)],
@@ -37,11 +44,11 @@ class CustomMessageTemplete extends StatelessWidget {
               bottomRight: Radius.circular(10),
             ),
           );
-    final textColor = message.isSentByMe ? Colors.white : Colors.black87;
+    final textColor = widget.message.isSentByMe ? Colors.white : Colors.black87;
 
     return GestureDetector(
       onTap: () {
-        if (message.isSentByMe) {
+        if (widget.message.isSentByMe) {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
@@ -51,7 +58,7 @@ class CustomMessageTemplete extends StatelessWidget {
                   onPressed: () {
                     BlocProvider.of<MessagesCubit>(
                       context,
-                    ).deleteMessage(message.id);
+                    ).deleteMessage(widget.message.id);
                     Navigator.of(context).pop();
                   },
                   child: const Text('Delete'),
@@ -63,7 +70,7 @@ class CustomMessageTemplete extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         final textController = TextEditingController(
-                          text: message.text,
+                          text: widget.message.text,
                         );
                         return AlertDialog(
                           title: const Text('Edit Message'),
@@ -80,11 +87,14 @@ class CustomMessageTemplete extends StatelessWidget {
                                   BlocProvider.of<MessagesCubit>(
                                     context,
                                   ).updateMessage(
-                                    message.id,
+                                    widget.message.id,
                                     textController.text,
                                   );
                                   Navigator.of(context).pop();
                                 }
+                                setState(() {
+                                  wasEdited = true;
+                                });
                               },
                               child: const Text('Save'),
                             ),
@@ -112,14 +122,35 @@ class CustomMessageTemplete extends StatelessWidget {
               ),
               decoration: bubbleColor,
               child: Text(
-                message.text,
+                widget.message.text,
                 style: TextStyle(color: textColor, fontSize: 16),
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              formatDateTime(message.time),
-              style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+            Row(
+              mainAxisAlignment: widget.message.isSentByMe
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+              children: [
+                wasEdited
+                    ? Text(
+                        'Edited',
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 10,
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                const SizedBox(width: 16),
+                Text(
+                  formatDateTime(widget.message.time),
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                ),
+                const SizedBox(width: 8),
+                if (widget.message.isSentByMe)
+                  Icon(Icons.check_circle, color: Colors.green, size: 16),
+              ],
             ),
           ],
         ),
