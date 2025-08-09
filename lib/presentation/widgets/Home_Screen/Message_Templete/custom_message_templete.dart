@@ -1,6 +1,6 @@
 import 'package:chat_app/bussines_logic/cubits/messages/messages_cubit.dart';
 import 'package:chat_app/data/models/message_model.dart';
-import 'package:chat_app/helpers/helper_functions.dart';
+import 'package:chat_app/presentation/widgets/Home_Screen/Message_Templete/custom_message_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -110,50 +110,14 @@ class _CustomMessageTempleteState extends State<CustomMessageTemplete> {
           );
         }
       },
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          crossAxisAlignment: alignment,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.75,
-              ),
-              decoration: bubbleColor,
-              child: Text(
-                widget.message.text,
-                style: TextStyle(color: textColor, fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: widget.message.isSentByMe
-                  ? MainAxisAlignment.end
-                  : MainAxisAlignment.start,
-              children: [
-                wasEdited
-                    ? Text(
-                        'Edited',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 10,
-                        ),
-                      )
-                    : const SizedBox.shrink(),
-                const SizedBox(width: 16),
-                Text(
-                  formatDateTime(widget.message.time),
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-                ),
-                const SizedBox(width: 8),
-                if (widget.message.isSentByMe)
-                  Icon(Icons.check_circle, color: Colors.green, size: 16),
-              ],
-            ),
-          ],
-        ),
+      child: CustomMessageContainer(
+        message: widget.message.text,
+        isSentByMe: widget.message.isSentByMe,
+        time: widget.message.time,
+        wasEdited: wasEdited,
+        bubbleColor: bubbleColor,
+        alignment: alignment,
+        textColor: textColor,
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:chat_app/bussines_logic/cubits/messages/messages_cubit.dart';
 import 'package:chat_app/presentation/widgets/Home_Screen/custom_app_bar.dart';
 import 'package:chat_app/presentation/widgets/Home_Screen/custom_message_composer.dart';
-import 'package:chat_app/presentation/widgets/Home_Screen/custom_message_templete.dart';
+import 'package:chat_app/presentation/widgets/Home_Screen/Message_Templete/custom_message_templete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
