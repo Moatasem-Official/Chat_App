@@ -24,17 +24,9 @@ class MessagesCubit extends Cubit<MessagesState> {
     }
   }
 
-  Future<void> updateMessage(String messageId, String message) async {
+  Future<void> updateMessage(String id, String message) async {
     try {
-      await FirestoreService.updateMessage(messageId, message);
-    } catch (e) {
-      emit(MessagesCubitError(e.toString()));
-    }
-  }
-
-  Future<void> deleteAllMessages() async {
-    try {
-      await FirestoreService.deleteAllMessages();
+      await FirestoreService.updateMessage(id, message);
     } catch (e) {
       emit(MessagesCubitError(e.toString()));
     }

@@ -66,24 +66,13 @@ class FirestoreService {
         .delete();
   }
 
-  static Future<void> updateMessage(String messageId, String message) async {
+  static Future<void> updateMessage(String id, String message) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('messages')
-        .doc(messageId)
+        .doc(id)
         .update({'message': message});
-  }
-
-  static Future<void> deleteAllMessages() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('messages')
-        .get()
-        .then(
-          (snapshot) => snapshot.docs.forEach((doc) => doc.reference.delete()),
-        );
   }
 
   static Future<void> addUserInfo({

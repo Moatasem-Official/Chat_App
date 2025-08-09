@@ -57,8 +57,43 @@ class CustomMessageTemplete extends StatelessWidget {
                   child: const Text('Delete'),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        final textController = TextEditingController(
+                          text: message.text,
+                        );
+                        return AlertDialog(
+                          title: const Text('Edit Message'),
+                          content: TextField(
+                            controller: textController,
+                            decoration: const InputDecoration(
+                              hintText: 'Edit your message',
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                if (textController.text.isNotEmpty) {
+                                  BlocProvider.of<MessagesCubit>(
+                                    context,
+                                  ).updateMessage(
+                                    message.id,
+                                    textController.text,
+                                  );
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: const Text('Save'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: const Text('Edit'),
                 ),
               ],
             ),
