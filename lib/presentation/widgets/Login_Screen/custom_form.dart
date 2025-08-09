@@ -87,7 +87,7 @@ class _CustomFormState extends State<CustomForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "Hello,\nWelcome Back",
+                      "Hello,\nWelcome Back 👋",
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
