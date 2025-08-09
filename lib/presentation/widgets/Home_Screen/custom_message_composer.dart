@@ -1,15 +1,15 @@
+import 'package:chat_app/bussines_logic/cubits/messages/messages_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomMessageComposer extends StatelessWidget {
   const CustomMessageComposer({
     super.key,
     required this.textController,
-    required this.onSendPressed,
     required this.onAttachmentPressed,
   });
 
   final TextEditingController textController;
-  final Function() onSendPressed;
   final Function() onAttachmentPressed;
 
   @override
@@ -44,7 +44,12 @@ class CustomMessageComposer extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.send_rounded, color: Colors.teal.shade600),
-              onPressed: onSendPressed,
+              onPressed: () {
+                if (textController.text.isNotEmpty) {
+                  context.read<MessagesCubit>().addMessage(textController.text);
+                  textController.clear();
+                }
+              },
             ),
           ],
         ),

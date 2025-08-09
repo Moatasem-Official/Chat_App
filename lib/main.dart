@@ -1,9 +1,11 @@
+import 'package:chat_app/bussines_logic/cubits/messages/messages_cubit.dart';
 import 'package:chat_app/presentation/screens/home_screen.dart';
 import 'package:chat_app/presentation/screens/login_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -34,16 +36,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return BlocProvider<MessagesCubit>(
+      create: (context) => MessagesCubit()..listenToMessages(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home:
+            FirebaseAuth.instance.currentUser != null &&
+                FirebaseAuth.instance.currentUser!.emailVerified
+            ? const ChatHomeScreen()
+            : const LoginScreen(),
       ),
-      home:
-          FirebaseAuth.instance.currentUser != null &&
-              FirebaseAuth.instance.currentUser!.emailVerified
-          ? const ChatHomeScreen()
-          : const LoginScreen(),
     );
   }
 }

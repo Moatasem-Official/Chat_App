@@ -1,9 +1,11 @@
-class ChatMessage {
+class MessageModel {
+  final String id;
   final String text;
-  final String time;
+  final DateTime time;
   final bool isSentByMe;
 
-  ChatMessage({
+  MessageModel({
+    required this.id,
     required this.text,
     required this.time,
     required this.isSentByMe,

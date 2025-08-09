@@ -1,4 +1,4 @@
-import 'package:chat_app/bussines_logic/cubits/cubit/auth_cubit.dart';
+import 'package:chat_app/bussines_logic/cubits/auth/auth_cubit.dart';
 import 'package:chat_app/helpers/error_handler.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_login_button.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_sign_up_link.dart';
@@ -134,6 +134,7 @@ class _CustomFormState extends State<CustomForm> {
                               if (widget.formKey.currentState!.validate()) {
                                 BlocProvider.of<AuthCubit>(context).signUp(
                                   email: widget.emailController.text,
+                                  name: widget.nameController.text,
                                   password: widget.passwordController.text,
                                 );
                               }

@@ -1,4 +1,4 @@
-import 'package:chat_app/bussines_logic/cubits/cubit/auth_cubit.dart';
+import 'package:chat_app/bussines_logic/cubits/auth/auth_cubit.dart';
 import 'package:chat_app/helpers/error_handler.dart';
 import 'package:chat_app/presentation/screens/home_screen.dart';
 import 'package:chat_app/presentation/screens/sign_up_screen.dart';

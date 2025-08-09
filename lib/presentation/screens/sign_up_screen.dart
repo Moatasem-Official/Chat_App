@@ -1,4 +1,4 @@
-import 'package:chat_app/bussines_logic/cubits/cubit/auth_cubit.dart';
+import 'package:chat_app/bussines_logic/cubits/auth/auth_cubit.dart';
 import 'package:chat_app/presentation/widgets/Sign_Up_Screen/custom_form.dart';
 import 'package:chat_app/presentation/widgets/Sign_Up_Screen/custom_header.dart';
 import 'package:flutter/material.dart';

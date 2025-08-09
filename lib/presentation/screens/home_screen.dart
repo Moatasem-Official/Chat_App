@@ -1,8 +1,9 @@
-import 'package:chat_app/data/models/message_model.dart';
+import 'package:chat_app/bussines_logic/cubits/messages/messages_cubit.dart';
 import 'package:chat_app/presentation/widgets/Home_Screen/custom_app_bar.dart';
 import 'package:chat_app/presentation/widgets/Home_Screen/custom_message_composer.dart';
 import 'package:chat_app/presentation/widgets/Home_Screen/custom_message_templete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChatHomeScreen extends StatefulWidget {
@@ -13,9 +14,14 @@ class ChatHomeScreen extends StatefulWidget {
 }
 
 class _ConversationScreenState extends State<ChatHomeScreen> {
-  final TextEditingController _textController = TextEditingController();
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
-  final List<ChatMessage> _messages = [];
+  final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,26 +33,53 @@ class _ConversationScreenState extends State<ChatHomeScreen> {
       ),
       body: Column(
         children: [
-          _messages.isEmpty
-              ? Expanded(
-                  child: Center(
-                    child: SvgPicture.asset("assets/images/Chat-cuate.svg"),
-                  ),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16.0),
-                    reverse: false,
-                    itemCount: _messages.length,
-                    itemBuilder: (context, index) {
-                      return CustomMessageTemplete(message: _messages[index]);
-                    },
-                  ),
-                ),
+          Expanded(
+            child: BlocConsumer<MessagesCubit, MessagesState>(
+              listener: (context, state) {
+                if (state is MessagesCubitError) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                }
+              },
+              builder: (context, state) {
+                return BlocBuilder<MessagesCubit, MessagesState>(
+                  builder: (context, state) {
+                    if (state is MessagesCubitLoaded) {
+                      if (state.messages.isEmpty) {
+                        return Center(
+                          child: SvgPicture.asset(
+                            "assets/images/Chat-cuate.svg",
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                          padding: const EdgeInsets.all(16.0),
+                          reverse: false,
+                          itemCount: state.messages.length,
+                          controller: _scrollController,
+                          itemBuilder: (context, index) {
+                            return CustomMessageTemplete(
+                              message: state.messages[index],
+                            );
+                          },
+                        );
+                      }
+                    } else if (state is MessagesCubitError) {
+                      return Center(child: Text(state.message));
+                    } else if (state is MessagesCubitLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      return const Center(child: Text('Something went wrong'));
+                    }
+                  },
+                );
+              },
+            ),
+          ),
           CustomMessageComposer(
             textController: _textController,
             onAttachmentPressed: () {},
-            onSendPressed: () {},
           ),
         ],
       ),

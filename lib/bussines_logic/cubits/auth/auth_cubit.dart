@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:chat_app/data/services/firebase/auth/auth_service.dart';
+import 'package:chat_app/data/services/firebase/firestore/firestore_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,12 +9,17 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
     emit(AuthLoading());
     try {
       await AuthService.signUp(email, password);
       await AuthService.sendEmailVerification();
       emit(AuthSuccess());
+      await FirestoreService.addUserInfo(name: name, email: email);
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
