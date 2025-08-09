@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.2.0
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
@@ -31,7 +32,6 @@ flutter:
   assets:
     - assets/images/
   #   - images/a_dot_ham.jpeg
-
   fonts:
     - family: Poppins
       fonts:
@@ -44,3 +44,9 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Teal and Light Blue Friendly Chat App Logo.png"
+
