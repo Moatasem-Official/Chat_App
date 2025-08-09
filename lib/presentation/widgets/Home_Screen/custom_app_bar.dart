@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
               Text(
-                "متصل الآن",
+                "Online",
                 style: TextStyle(color: Colors.green.shade600, fontSize: 13),
               ),
             ],
@@ -63,12 +63,12 @@ class CustomAppBar extends StatelessWidget {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: const Text("تسجيل الخروج"),
-                content: const Text("هل انت متاكد من تسجيل الخروج ؟"),
+                title: const Text("LOG OUT"),
+                content: const Text("Are you sure you want to log out ?"),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("لا"),
+                    child: const Text("No"),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -80,10 +80,12 @@ class CustomAppBar extends StatelessWidget {
                         ),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("تم تسجيل الخروج بنجاح")),
+                        const SnackBar(
+                          content: Text("Logged out successfully"),
+                        ),
                       );
                     },
-                    child: const Text("نعم"),
+                    child: const Text("Yes"),
                   ),
                 ],
               ),

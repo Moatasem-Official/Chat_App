@@ -65,29 +65,24 @@ class _SignUpScreenState extends State<SignUpScreen>
               end: Alignment.bottomRight,
             ),
           ),
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: size.height,
-              child: Column(
-                children: [
-                  CustomHeader(
-                    fadeAnimation: _fadeAnimation,
-                    slideAnimation: _slideAnimation,
-                    size: size,
-                  ),
-                  CustomForm(
-                    formKey: _formKey,
-                    nameController: _nameController,
-                    emailController: _emailController,
-                    passwordController: _passwordController,
-                    isVisible: isVisible,
-                    onEyePressed: () => setState(() => isVisible = !isVisible),
-                    fadeAnimation: _fadeAnimation,
-                    slideAnimation: _slideAnimation,
-                  ),
-                ],
+          child: Column(
+            children: [
+              CustomHeader(
+                fadeAnimation: _fadeAnimation,
+                slideAnimation: _slideAnimation,
+                size: size,
               ),
-            ),
+              CustomForm(
+                formKey: _formKey,
+                nameController: _nameController,
+                emailController: _emailController,
+                passwordController: _passwordController,
+                isVisible: isVisible,
+                onEyePressed: () => setState(() => isVisible = !isVisible),
+                fadeAnimation: _fadeAnimation,
+                slideAnimation: _slideAnimation,
+              ),
+            ],
           ),
         ),
       ),

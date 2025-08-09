@@ -38,7 +38,7 @@ class _CustomFormState extends State<CustomForm> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 4,
       child: FadeTransition(
         opacity: widget.fadeAnimation,
         child: SlideTransition(
@@ -52,7 +52,7 @@ class _CustomFormState extends State<CustomForm> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
-                      "تم التسجيل بنجاح , من فضلك افحص بريدك الالكتروني",
+                      "Account Created Successfully, Please Check Your Email Box For Verification.",
                     ),
                   ),
                 );
@@ -83,7 +83,7 @@ class _CustomFormState extends State<CustomForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "أنشئ حسابك",
+                      "Create Account",
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -91,45 +91,43 @@ class _CustomFormState extends State<CustomForm> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "انضم إلينا وابدأ المحادثة",
+                      "Join Us And Start Chatting With Your Friends.",
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey.shade600,
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // حقول الإدخال
                     Form(
                       key: widget.formKey,
                       child: Column(
                         children: [
                           CustomTextFormField(
                             icon: Icons.person_outline,
-                            hint: "الاسم الكامل",
+                            hint: "Full Name",
                             isPassword: false,
                             controller: widget.nameController,
                           ),
                           const SizedBox(height: 16),
                           CustomTextFormField(
                             icon: Icons.email_outlined,
-                            hint: "البريد الإلكتروني",
+                            hint: "Email",
                             isPassword: false,
                             controller: widget.emailController,
                           ),
                           const SizedBox(height: 16),
                           CustomTextFormField(
                             icon: Icons.lock_outline,
-                            hint: "كلمة المرور",
+                            hint: "Password",
                             isPassword: true,
                             controller: widget.passwordController,
                             isVisible: widget.isVisible,
                             onPressed: widget.onEyePressed,
                           ),
                           const SizedBox(height: 24),
-                          // زر إنشاء الحساب
                           CustomLoginButton(
                             isLoading: isLoading,
-                            title: "انشاء حساب",
+                            title: "SIGN UP",
                             onPressed: () {
                               if (widget.formKey.currentState!.validate()) {
                                 BlocProvider.of<AuthCubit>(context).signUp(
@@ -143,11 +141,10 @@ class _CustomFormState extends State<CustomForm> {
                         ],
                       ),
                     ),
-                    const Spacer(),
-                    // رابط الانتقال لصفحة تسجيل الدخول
+                    const SizedBox(height: 16),
                     CustomSignUpLink(
-                      title: "لديك حساب بالفعل ؟ ",
-                      buttonTitle: "تسجيل الدخول",
+                      title: "Already have an account ?",
+                      buttonTitle: "LOG IN",
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ],

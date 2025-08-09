@@ -23,7 +23,7 @@ String formatDateTime(DateTime? dateTime) {
           dateTime.month == now.month &&
           dateTime.year == now.year)) {
     // أمس
-    return 'أمس';
+    return 'Yesterday ${formatTime(dateTime)}';
   } else {
     // تاريخ قديم
     String twoDigits(int n) => n.toString().padLeft(2, '0');

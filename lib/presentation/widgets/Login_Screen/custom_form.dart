@@ -50,7 +50,7 @@ class _CustomFormState extends State<CustomForm> {
               } else if (state is AuthSuccess) {
                 setState(() => isLoading = false);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("تم تسجيل الدخول بنجاح")),
+                  const SnackBar(content: Text("Logged In Successfully")),
                 );
                 Navigator.pushReplacement(
                   context,
@@ -87,7 +87,7 @@ class _CustomFormState extends State<CustomForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      "أهلاً بعودتك!",
+                      "Hello,\nWelcome Back",
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -95,38 +95,36 @@ class _CustomFormState extends State<CustomForm> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "سجل الدخول للمتابعة",
+                      "Enter Your Credentials To Continue !",
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey.shade600,
                       ),
                     ),
                     const SizedBox(height: 24),
-                    // حقول الإدخال
                     Form(
                       key: widget.formKey,
                       child: Column(
                         children: [
                           CustomTextFormField(
                             icon: Icons.email_outlined,
-                            hint: "البريد الإلكتروني",
+                            hint: "Email",
                             controller: widget.emailController,
                             isPassword: false,
                           ),
                           const SizedBox(height: 16),
                           CustomTextFormField(
                             icon: Icons.lock_outline,
-                            hint: "كلمة المرور",
+                            hint: "Password",
                             isPassword: true,
                             isVisible: widget.isVisible,
                             controller: widget.passwordController,
                             onPressed: widget.onEyePressed,
                           ),
                           const SizedBox(height: 24),
-                          // زر تسجيل الدخول
                           CustomLoginButton(
                             isLoading: isLoading,
-                            title: "تسجيل الدخول",
+                            title: "LOG IN",
                             onPressed: () {
                               if (widget.formKey.currentState!.validate()) {
                                 context.read<AuthCubit>().signIn(
@@ -140,10 +138,9 @@ class _CustomFormState extends State<CustomForm> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // رابط إنشاء حساب جديد
                     CustomSignUpLink(
-                      title: "ليس لديك حساب ؟ ",
-                      buttonTitle: "انشاء حساب",
+                      title: "Don't have an account ?",
+                      buttonTitle: "SIGN UP",
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
