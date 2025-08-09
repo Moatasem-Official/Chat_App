@@ -23,9 +23,7 @@ class FirestoreService {
 
   static Stream<List<MessageModel>> getMessages() {
     return FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('messages')
+        .collectionGroup('messages')
         .orderBy('sendedAt', descending: false)
         .snapshots()
         .map((snapshot) {

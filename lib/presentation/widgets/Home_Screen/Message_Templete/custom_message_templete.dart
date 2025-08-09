@@ -14,7 +14,7 @@ class CustomMessageTemplete extends StatefulWidget {
 }
 
 class _CustomMessageTempleteState extends State<CustomMessageTemplete> {
-  bool wasEdited = true;
+  bool wasEdited = false;
 
   @override
   Widget build(BuildContext context) {

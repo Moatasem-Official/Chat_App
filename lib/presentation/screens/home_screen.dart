@@ -40,6 +40,16 @@ class _ConversationScreenState extends State<ChatHomeScreen> {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text(state.message)));
+                  print('Error: ${state.message}');
+                } else if (state is MessagesCubitLoaded) {
+                  // Scroll to the bottom when new messages are loaded
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                    );
+                  });
                 }
               },
               builder: (context, state) {
