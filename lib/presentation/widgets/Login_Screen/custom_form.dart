@@ -1,5 +1,6 @@
 import 'package:chat_app/bussines_logic/cubits/auth/auth_cubit.dart';
 import 'package:chat_app/helpers/error_handler.dart';
+import 'package:chat_app/presentation/screens/forget_pasword_screen.dart';
 import 'package:chat_app/presentation/screens/home_screen.dart';
 import 'package:chat_app/presentation/screens/sign_up_screen.dart';
 import 'package:chat_app/presentation/widgets/Login_Screen/custom_login_button.dart';
@@ -120,6 +121,26 @@ class _CustomFormState extends State<CustomForm> {
                             isVisible: widget.isVisible,
                             controller: widget.passwordController,
                             onPressed: widget.onEyePressed,
+                          ),
+                          const SizedBox(height: 16),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextButton(
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ForgetPaswordScreen(),
+                                ),
+                              ),
+                              child: const Text(
+                                "Forgot Password ?",
+                                style: TextStyle(
+                                  color: Color(0xFF8E9EFE),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 24),
                           CustomLoginButton(

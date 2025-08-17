@@ -1,6 +1,8 @@
+import 'package:chat_app/bussines_logic/cubits/auth/auth_cubit.dart';
 import 'package:chat_app/bussines_logic/cubits/messages/messages_cubit.dart';
 import 'package:chat_app/presentation/screens/home_screen.dart';
 import 'package:chat_app/presentation/screens/login_screen.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,7 +12,7 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(DevicePreview(enabled: true, builder: (context) => const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -35,8 +37,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MessagesCubit>(
-      create: (context) => MessagesCubit()..listenToMessages(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => MessagesCubit()..listenToMessages()),
+        BlocProvider(create: (context) => AuthCubit()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
