@@ -131,9 +131,10 @@ class _CustomFormState extends State<CustomForm> {
                             onPressed: () {
                               if (widget.formKey.currentState!.validate()) {
                                 BlocProvider.of<AuthCubit>(context).signUp(
-                                  email: widget.emailController.text,
-                                  name: widget.nameController.text,
-                                  password: widget.passwordController.text,
+                                  email: widget.emailController.text.trim(),
+                                  name: widget.nameController.text.trim(),
+                                  password: widget.passwordController.text
+                                      .trim(),
                                 );
                               }
                             },

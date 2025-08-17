@@ -128,8 +128,9 @@ class _CustomFormState extends State<CustomForm> {
                             onPressed: () {
                               if (widget.formKey.currentState!.validate()) {
                                 context.read<AuthCubit>().signIn(
-                                  email: widget.emailController.text,
-                                  password: widget.passwordController.text,
+                                  email: widget.emailController.text.trim(),
+                                  password: widget.passwordController.text
+                                      .trim(),
                                 );
                               }
                             },

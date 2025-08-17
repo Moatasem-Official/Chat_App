@@ -21,6 +21,8 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
+      print('FirebaseAuthException code: ${e.code}');
+      print('FirebaseAuthException message: ${e.message}');
       if (e.code == 'weak-password') {
         throw 'weak-password';
       } else if (e.code == 'email-already-in-use') {
@@ -28,6 +30,10 @@ class AuthService {
       } else {
         throw 'unknown-error';
       }
+    } catch (e) {
+      print('Unexpected error: $e');
+      print('Error during sign up: $e');
+      throw 'unknown-error';
     }
   }
 
@@ -39,6 +45,7 @@ class AuthService {
       );
     } on FirebaseAuthException catch (e) {
       print('FirebaseAuthException code: ${e.code}');
+      print('FirebaseAuthException message: ${e.message}');
 
       switch (e.code) {
         case 'user-not-found':
@@ -52,6 +59,10 @@ class AuthService {
         default:
           throw 'unknown-error';
       }
+    } catch (e) {
+      print('Unexpected error: $e');
+      print('Error during sign in: $e');
+      throw 'unknown-error';
     }
   }
 }
